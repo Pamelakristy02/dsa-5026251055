@@ -21,4 +21,5 @@ public class ColourPrint extends PrintJob {
     public String label() {
         return "Colour";
     }
+    
 }
