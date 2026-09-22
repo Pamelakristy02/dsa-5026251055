@@ -2,7 +2,8 @@ package lw01.prelab;
 
 public class MonoPrint extends PrintJob{
     public MonoPrint (String id, int pages) {
-        super(id, pages);
+        super(id, pages); 
+        //super() digunakan untuk memanggil constructor dari class induk (PrintJob) agar dapat mengakses private id dan pages
     }
 
     @Override

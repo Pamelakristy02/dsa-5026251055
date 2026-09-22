@@ -1,17 +1,18 @@
 package lw01.prelab;
 
-import java.io.*;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         List<PrintJob> jobs = new ArrayList<>();   
 
-        try (Scanner scanner = new Scanner(new File("src/lw01/prelab/jobs.txt"))) {
+        Scanner scanner = new Scanner(Main.class.getResourceAsStream("jobs.txt")); 
             while (scanner.hasNext()) {
                 String type = scanner.next();       
                 String id = scanner.next();         
                 int pages = scanner.nextInt();      
+
+                PrintJob job;
 
                 if (type.equals("MONO")) {
                     jobs.add(new MonoPrint(id, pages));
@@ -19,10 +20,8 @@ public class Main {
                     jobs.add(new ColourPrint(id, pages));
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("File jobs.txt tidak ditemukan.");
-            return;
-        }
+
+        scanner.close();
 
         for (PrintJob job : jobs) {
             System.out.println(job.summary());
