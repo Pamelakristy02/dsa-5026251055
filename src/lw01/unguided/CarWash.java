@@ -13,7 +13,7 @@ public class CarWash extends WashService {
         if (days <= 3) {
             total = days * 35000;
         } else {
-            total = (3 * 35000) + ((days - 3) * 15000);
+            total = (3 * 35000) + ((days - 3) * 25000);
         }
         return total + 15000;
     }

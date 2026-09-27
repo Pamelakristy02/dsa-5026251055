@@ -1,6 +1,6 @@
 package lw01.unguided;
 
-public abstract class WashService {
+public abstract class WashService implements Billable {
     private String id;
     private int days;
 
@@ -23,6 +23,7 @@ public abstract class WashService {
 
       @Override 
       public abstract int calculateCharge(); 
+
       public int calculateCharge(int units) {
         if (units < 0) {
             throw new IllegalArgumentException("Units cannot be negative");
@@ -34,7 +35,7 @@ public abstract class WashService {
         return "Service";
       }
 
-      public String summary () {
-        return id + "|" + label() + " | " + calculateCharge();
+      public String summary (int units) {
+        return id + "|" + label() + " | " + calculateCharge(units);
       }
 }

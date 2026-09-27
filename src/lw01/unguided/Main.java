@@ -13,19 +13,19 @@ public class Main {
                 String type = scanner.next();
                 String id = scanner.next();
                 int days = scanner.nextInt();
+                int units = scanner.nextInt();
 
                 if (type.equals("MOTORCYCLE")) {
                     service[i] = new MotorcycleWash(id, days);
                 } else if (type.equals("CAR")) {
                     service[i] = new CarWash(id, days);
                 }
+
+                System.out.println(service[i].summary(units));
             }
 
         scanner.close();
 
-        for (int i = 0; i < count; i++) {
-            System.out.println(service[i].summary());
-        }
     }
 }
 
