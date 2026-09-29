@@ -1,31 +1,36 @@
 package lw02.prelab;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
-public class BankTransactionProcessor {
-
+public class Main {
     public static void main(String[] args) {
 
-        LinkedList<String[]> transactions = new LinkedList<>();
+        //step 1: buat semua linkedlist yang dibutuhkan
 
-        Scanner fileScanner = new Scanner(BankTransactionProcessor.class.getResourceAsStream("transactions.txt"));
+        //linkedlist ke-1 trnasaction dengan data type string array format: [name, type, amount]
+        LinkedList<String[]> transactions = new LinkedList<>();
+        LinkedList<String[]> customers = new LinkedList<>();
+
+        //queue merupakan interface yang berupa sifat, sedangkan linkedlist adalah class merupakan implementasi dari queue. Queue digunakan untuk memproses transaksi secara berurutan (FIFO)
+        Queue<String[]> transactionQueue = new LinkedList<>();
+
+        //stack merupakan class yang memiliki sifat sendiri (LIFO)
+        Stack<String[]> failedWithdrawals = new Stack<>();
+
+        //baca file transactions.txt
+        Scanner fileScanner = new Scanner(Main.class.getResourceAsStream("transactions.txt"));
+
+        //baca file line by line, split setiap line menjadi array string, dan tambahkan ke linkedlist transactions
         while (fileScanner.hasNextLine()) {
-            String line = fileScanner.nextLine().trim();
-            if (line.isEmpty()) {
-                continue;
-            }
-            
-            String[] parts = line.split("\\s+");
-            transactions.add(parts);
+            String[] transaction = new String[3];
+            transaction[0] = fileScanner.next();
+            transaction[1] = fileScanner.next();
+            transaction[2] = fileScanner.next();
+            transactions.add(transaction);
         }
         fileScanner.close();
 
-        
-        LinkedList<String[]> customers = new LinkedList<>();
-
+        //untuk mencegah duplikasi nama customer, kita akan menambahkan semua nama customer ke dalam linkedlist customers jika belum ada
         for (String[] transaction : transactions) {
             String name = transaction[0];
             if (findCustomer(customers, name) == null) {
@@ -33,12 +38,8 @@ public class BankTransactionProcessor {
             }
         }
 
-        
-        Queue<String[]> transactionQueue = new LinkedList<>();
+        //tambahkan semua (addall) transaksi ke dalam queue
         transactionQueue.addAll(transactions);
-
-        
-        Stack<String[]> failedWithdrawals = new Stack<>();
 
         while (!transactionQueue.isEmpty()) {
             String[] transaction = transactionQueue.poll();
@@ -49,13 +50,13 @@ public class BankTransactionProcessor {
             String[] customer = findCustomer(customers, name);
             int balance = Integer.parseInt(customer[1]);
 
-            if (type.equalsIgnoreCase("DEPOSIT")) {
+            if (type.equals("DEPOSIT")) {
                 balance += amount;
                 customer[1] = String.valueOf(balance);
-            } else if (type.equalsIgnoreCase("WITHDRAW")) {
+            } else if (type.equals("WITHDRAW")) {
                 if (amount > balance) {
                     // Failed withdrawal: balance stays the same
-                    failedWithdrawals.push(transaction);
+                   failedWithdrawals.push(transaction);
                 } else {
                     balance -= amount;
                     customer[1] = String.valueOf(balance);
