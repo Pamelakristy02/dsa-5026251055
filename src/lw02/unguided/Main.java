@@ -32,7 +32,7 @@ public class Main {
         foodStock.add(new String[]{"Soto", "2"});
         
         drinkStock.add(new String[]{"EsTeh", "4"});
-        drinkStock.add(new String[]{"EsJeruk", "2"});
+        drinkStock.asdd(new String[]{"EsJeruk", "2"});
 
         orderQueue.addAll(orders);
 
