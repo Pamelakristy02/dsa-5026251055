@@ -19,16 +19,17 @@ public class Main {
             String line = fileScanner.nextLine().trim();
             if (line.isEmpty()) continue;
 
-            if (line.startsWith("ADD ")) {
-                String song = line.substring(4);
-                playlist.add(song);
-            } else if (line.startsWith("INSERT ")) {
-                String[] parts = line.split(" ", 3);
-                int index = Integer.parseInt(parts[1]);
-                playlist.add(index, parts[2]);
-            } else if (line.startsWith("REMOVE ")) {
-                String song = line.substring(7);
-                playlist.remove(song);
+            String[] parts = line.split(" ", 2);   // parts[0] = perintah, parts[1] = sisanya
+            String command = parts[0];
+
+            if (command.equals("ADD")) {
+                playlist.add(parts[1]);
+            } else if (command.equals("INSERT")) {
+                String[] insertParts = parts[1].split(" ", 2);
+                int index = Integer.parseInt(insertParts[0]);
+                playlist.add(index, insertParts[1]);
+            } else if (command.equals("REMOVE")) {
+                playlist.remove(parts[1]);
             }
         }
         fileScanner.close();
